@@ -21,10 +21,10 @@ module Services
         @current_pins -= rolled_pins
         @remaining_throws -= 1
         @players[current_player][:frames] << rolled_pins
+      else
+        reset
+        switch_player
       end
-
-      reset
-      switch_player
     end
 
     private

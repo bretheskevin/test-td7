@@ -26,7 +26,7 @@ RSpec.describe Services::BowlingService do
 
       service.send(:reset)
     end
-    
+
     it 'resets the current pins' do
       expect(service.instance_variable_get(:@current_pins)).to eq(Services::BowlingService::MAX_PINS)
     end
@@ -50,6 +50,40 @@ RSpec.describe Services::BowlingService do
       service.send(:switch_player)
       service.send(:switch_player)
       expect(service.send(:current_player)).to eq(:A)
+    end
+  end
+
+  describe '#roll' do
+    describe "switch player after MAX_THROW is reached" do
+      context "when MAX_THROW is 2 and roll method is called once" do
+        before do
+          service.roll(rolled_pins: 1)
+        end
+
+        it "player A is the current player" do
+          expect(service.send(:current_player)).to eq(:A)
+        end
+      end
+
+      context "when MAX_THROW is 2 and roll method is called twice" do
+        before do
+          2.times { service.roll(rolled_pins: 1) }
+        end
+
+        it "player A is still the current player" do
+          expect(service.send(:current_player)).to eq(:A)
+        end
+      end
+
+      context "when MAX_THROW is 2 and roll method is called three times" do
+        before do
+          3.times { service.roll(rolled_pins: 1) }
+        end
+
+        it "switches to player B" do
+          expect(service.send(:current_player)).to eq(:B)
+        end
+      end
     end
   end
 end
