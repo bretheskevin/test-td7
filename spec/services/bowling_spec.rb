@@ -70,17 +70,7 @@ RSpec.describe Services::BowlingService do
           2.times { service.roll(rolled_pins: 1) }
         end
 
-        it 'player A is still the current player' do
-          expect(service.send(:current_player)).to eq(:A)
-        end
-      end
-
-      context 'when MAX_THROW is 2 and roll method is called three times' do
-        before do
-          3.times { service.roll(rolled_pins: 1) }
-        end
-
-        it 'switches to player B' do
+        it 'player B is now the current player' do
           expect(service.send(:current_player)).to eq(:B)
         end
       end
@@ -89,12 +79,12 @@ RSpec.describe Services::BowlingService do
     describe '@players frame score' do
       it 'total number of rolled pins' do
         2.times { service.roll(rolled_pins: 1) }
-        expect(service.instance_variable_get(:@players)[:A][:frames]).to eq([1, 1])
+        expect(service.instance_variable_get(:@players)[:A][:frames]).to eq([2])
       end
 
       it 'total number of rolled pins' do
-        5.times { service.roll(rolled_pins: 1) }
-        expect(service.instance_variable_get(:@players)[:A][:frames]).to eq([1, 1, 1])
+        6.times { service.roll(rolled_pins: 1) }
+        expect(service.instance_variable_get(:@players)[:A][:frames]).to eq([2, 2])
       end
     end
   end

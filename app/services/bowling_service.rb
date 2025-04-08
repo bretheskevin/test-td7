@@ -17,18 +17,23 @@ module Services
     end
 
     def roll(rolled_pins: Random.rand(0..MAX_PINS))
-      if @remaining_throws.positive?
-        @current_pins -= rolled_pins
-        @remaining_throws -= 1
-        @players[current_player][:frames] << rolled_pins
-      else
-        reset
-        switch_player
-        roll(rolled_pins: rolled_pins)
-      end
+      @current_pins -= rolled_pins
+      @remaining_throws -= 1
+
+      next_player_action if @remaining_throws.zero?
     end
 
     private
+
+    def next_player_action
+      fill_current_frame
+      reset
+      switch_player
+    end
+
+    def fill_current_frame
+      @players[current_player][:frames] << (MAX_PINS - @current_pins)
+    end
 
     def switch_player
       @current_player = current_player == :A ? :B : :A
