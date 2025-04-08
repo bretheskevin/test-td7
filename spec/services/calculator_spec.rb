@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe ::Services::CalculatorService do
-  subject(:calculator) { described_class.new }
+  subject(:calculator) { described_class }
 
   describe '#add' do
     context 'with positive integers' do
@@ -206,5 +206,19 @@ RSpec.describe ::Services::CalculatorService do
         expect(calculator.exponentiate(-2, 2)).to eq(4)
       end
     end
+  end
+
+  describe 'input validation' do
+    shared_examples 'raises ArgumentError for non-numeric inputs' do |method_name, args|
+      it "raises ArgumentError for #{method_name} with #{args.inspect}" do
+        expect { calculator.public_send(method_name, *args) }.to raise_error(ArgumentError, /Expected Numeric/)
+      end
+    end
+
+    include_examples 'raises ArgumentError for non-numeric inputs', :add, ['a', 1]
+    include_examples 'raises ArgumentError for non-numeric inputs', :subtract, [1, nil]
+    include_examples 'raises ArgumentError for non-numeric inputs', :multiply, [{}, 2]
+    include_examples 'raises ArgumentError for non-numeric inputs', :divide, [[], 2]
+    include_examples 'raises ArgumentError for non-numeric inputs', :exponentiate, [1, 'b']
   end
 end
