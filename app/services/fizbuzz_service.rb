@@ -1,15 +1,15 @@
+# frozen_string_literal: true
 module Services
   class FizbuzzService
 
-    def self.call(n, use_log = false)
+    def self.call(n, use_log: false)
       result = (1..n).map do |i|
-        case
-        when i % 15 == 0
-          "FizzBuzz"
-        when i % 3 == 0
-          "Fizz"
-        when i % 5 == 0
-          "Buzz"
+        if (i % 15).zero?
+          'FizzBuzz'
+        elsif (i % 3).zero?
+          'Fizz'
+        elsif (i % 5).zero?
+          'Buzz'
         else
           i.to_s
         end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Services
   class BowlingService
     MAX_FRAMES = 10
@@ -8,15 +9,15 @@ module Services
     def initialize
       @current_player = FIRST_PLAYER
       @players = {
-        :A => { frames: [] },
-        :B => { frames: [] },
+        A: { frames: [] },
+        B: { frames: [] }
       }
 
       reset
     end
 
     def roll
-      if @remaining_throws > 0
+      if @remaining_throws.positive?
         rolled_pins = Random.rand(0..MAX_PINS)
         @current_pins -= rolled_pins
         @remaining_throws -= 1
@@ -44,10 +45,10 @@ module Services
 
     def print_frames
       @players.each do |player, data|
-        pp "|=================="
+        pp '|=================='
         pp "|#{player}: #{data[:frames].join(', ')}"
-        pp "|=================="
-        pp ""
+        pp '|=================='
+        pp ''
       end
     end
   end

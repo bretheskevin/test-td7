@@ -1,0 +1,10 @@
+AllCops:
+  DisabledByDefault: true
+  EnablePendingCops: false
+  NewCops: disable
+
+Style:
+  Enabled: true
+
+Style/Documentation:
+  Enabled: false
