@@ -28,4 +28,30 @@ RSpec.describe ::Services::CalculatorService do
       end
     end
   end
+
+  describe '#subtract' do
+    context 'with positive integers' do
+      it 'returns the difference of two numbers' do
+        expect(calculator.subtract(2, 3)).to eq(-1)
+      end
+    end
+
+    context 'with negative integers' do
+      it 'returns the difference of two numbers' do
+        expect(calculator.subtract(-2, -3)).to eq(1)
+      end
+    end
+
+    context 'with mixed integers' do
+      it 'returns the difference of a positive and negative number' do
+        expect(calculator.subtract(5, -3)).to eq(8)
+      end
+    end
+
+    context 'with decimal numbers' do
+      it 'returns the difference of two decimal numbers' do
+        expect(calculator.subtract(1.5, 2.5)).to eq(-1)
+      end
+    end
+  end
 end
