@@ -1,0 +1,20 @@
+#!/bin/sh
+
+echo "Running RuboCop formatting..."
+bundle exec rubocop -A -c .rubocop.yml
+
+if [ $? -ne 0 ]; then
+  echo "RuboCop formatting failed. Commit aborted."
+  exit 1
+fi
+
+echo "Running RSpec tests..."
+bundle exec rspec
+
+# Capture exit code
+RESULT=$?
+
+if [ $RESULT -ne 0 ]; then
+  echo "RSpec failed. Commit aborted."
+  exit 1
+fi
