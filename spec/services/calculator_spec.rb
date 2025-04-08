@@ -80,4 +80,36 @@ RSpec.describe ::Services::CalculatorService do
       end
     end
   end
+
+  describe '#divide' do
+    context 'with positive integers' do
+      it 'returns the quotient of two numbers' do
+        expect(calculator.divide(6, 3)).to eq(2)
+      end
+    end
+
+    context 'with negative integers' do
+      it 'returns the quotient of two numbers' do
+        expect(calculator.divide(-6, -3)).to eq(2)
+      end
+    end
+
+    context 'with mixed integers' do
+      it 'returns the quotient of a positive and negative number' do
+        expect(calculator.divide(6, -3)).to eq(-2)
+      end
+    end
+
+    context 'with decimal numbers' do
+      it 'returns the quotient of two decimal numbers' do
+        expect(calculator.divide(2.5, 0.5)).to eq(5.0)
+      end
+    end
+
+    context 'when dividing by zero' do
+      it 'raises ZeroDivisionError' do
+        expect { calculator.divide(5, 0) }.to raise_error(ZeroDivisionError)
+      end
+    end
+  end
 end
