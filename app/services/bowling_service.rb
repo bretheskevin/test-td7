@@ -24,6 +24,7 @@ module Services
       else
         reset
         switch_player
+        roll(rolled_pins: rolled_pins)
       end
     end
 
@@ -40,15 +41,6 @@ module Services
     def reset
       @current_pins = MAX_PINS
       @remaining_throws = MAX_THROW
-    end
-
-    def print_frames
-      @players.each do |player, data|
-        pp '|=================='
-        pp "|#{player}: #{data[:frames].join(', ')}"
-        pp '|=================='
-        pp ''
-      end
     end
   end
 end

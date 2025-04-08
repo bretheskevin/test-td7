@@ -85,5 +85,17 @@ RSpec.describe Services::BowlingService do
         end
       end
     end
+
+    describe '@players frame score' do
+      it 'total number of rolled pins' do
+        2.times { service.roll(rolled_pins: 1) }
+        expect(service.instance_variable_get(:@players)[:A][:frames]).to eq([1, 1])
+      end
+
+      it 'total number of rolled pins' do
+        5.times { service.roll(rolled_pins: 1) }
+        expect(service.instance_variable_get(:@players)[:A][:frames]).to eq([1, 1, 1])
+      end
+    end
   end
 end
