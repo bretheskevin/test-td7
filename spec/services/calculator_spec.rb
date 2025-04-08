@@ -54,4 +54,30 @@ RSpec.describe ::Services::CalculatorService do
       end
     end
   end
+
+  describe '#multiply' do
+    context 'with positive integers' do
+      it 'returns the product of two numbers' do
+        expect(calculator.multiply(2, 3)).to eq(6)
+      end
+    end
+
+    context 'with negative integers' do
+      it 'returns the product of two numbers' do
+        expect(calculator.multiply(-2, -3)).to eq(6)
+      end
+    end
+
+    context 'with mixed integers' do
+      it 'returns the product of a positive and negative number' do
+        expect(calculator.multiply(5, -3)).to eq(-15)
+      end
+    end
+
+    context 'with decimal numbers' do
+      it 'returns the product of two decimal numbers' do
+        expect(calculator.multiply(1.5, 2.0)).to eq(3.0)
+      end
+    end
+  end
 end
