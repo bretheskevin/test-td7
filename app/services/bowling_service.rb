@@ -1,57 +1,54 @@
 module Services
   class BowlingService
     MAX_FRAMES = 10
+    MAX_PINS = 10
+    MAX_THROW = 2
+    FIRST_PLAYER = :A
 
     def initialize
-      @rolls = []
+      @current_player = FIRST_PLAYER
+      @players = {
+        :A => { frames: [] },
+        :B => { frames: [] },
+      }
+
+      reset
     end
 
-    def roll(pins)
-      raise "Invalid number of pins" if pins < 0 || pins > 10
-      @rolls << pins
-    end
-
-    # Calcule le score total de la partie
-    def score
-      total = 0
-      roll_index = 0
-
-      MAX_FRAMES.times do
-        if strike?(roll_index)
-          total += 10 + strike_bonus(roll_index)
-          roll_index += 1
-        elsif spare?(roll_index)
-          total += 10 + spare_bonus(roll_index)
-          roll_index += 2
-        else
-          total += frame_score(roll_index)
-          roll_index += 2
-        end
+    def roll
+      if @remaining_throws > 0
+        rolled_pins = Random.rand(0..MAX_PINS)
+        @current_pins -= rolled_pins
+        @remaining_throws -= 1
+        @players[current_player][:frames] << rolled_pins
       end
 
-      total
+      switch_player
     end
 
     private
 
-    def strike?(index)
-      @rolls[index] == 10
+    def switch_player
+      @current_player = current_player == :A ? :B : :A
     end
 
-    def spare?(index)
-      @rolls[index] + @rolls[index + 1] == 10
+    def current_player
+      @current_player ||= :A
     end
 
-    def strike_bonus(index)
-      @rolls[index + 1].to_i + @rolls[index + 2].to_i
+    def reset
+      @current_pins = MAX_PINS
+      @remaining_throws = MAX_THROW
+      @current_player = FIRST_PLAYER
     end
 
-    def spare_bonus(index)
-      @rolls[index + 2].to_i
-    end
-
-    def frame_score(index)
-      @rolls[index].to_i + @rolls[index + 1].to_i
+    def print_frames
+      @players.each do |player, data|
+        pp "|=================="
+        pp "|#{player}: #{data[:frames].join(', ')}"
+        pp "|=================="
+        pp ""
+      end
     end
   end
 end
