@@ -42,4 +42,18 @@ RSpec.describe Services::FizbuzzService do
       end
     end
   end
+
+  describe '.from_number' do
+    context 'when n is 15' do
+      it 'returns "FizzBuzz"' do
+        expect(described_class.send(:from_number, 15)).to eq('FizzBuzz')
+      end
+    end
+
+    context 'when n is  2_000_000_001' do
+      it 'returns "FizzBuzz"' do
+        expect(described_class.send(:from_number, 2_000_000_001)).to eq('Fizz')
+      end
+    end
+  end
 end
