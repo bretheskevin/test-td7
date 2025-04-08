@@ -104,11 +104,57 @@ RSpec.describe ::Services::CalculatorService do
       it 'returns the quotient of two decimal numbers' do
         expect(calculator.divide(2.5, 0.5)).to eq(5.0)
       end
+
+      it 'returns a float when dividing integers' do
+        expect(calculator.divide(5, 2)).to eq(2.5)
+      end
+    end
+
+    context 'when numerator is zero' do
+      it 'returns 0 regardless of denominator' do
+        expect(calculator.divide(0, 5)).to eq(0)
+      end
+
+      it 'returns 0 for negative denominator' do
+        expect(calculator.divide(0, -5)).to eq(0)
+      end
+    end
+
+    context 'with very large numbers' do
+      it 'returns a float with correct precision' do
+        expect(calculator.divide(1_000_000_000_000, 2)).to eq(500_000_000_000.0)
+      end
     end
 
     context 'when dividing by zero' do
-      it 'raises ZeroDivisionError' do
+      it 'raises ZeroDivisionError with integer zero' do
         expect { calculator.divide(5, 0) }.to raise_error(ZeroDivisionError)
+      end
+
+      it 'raises ZeroDivisionError with float zero' do
+        expect { calculator.divide(5, 0.0) }.to raise_error(ZeroDivisionError)
+      end
+    end
+
+    context 'with special float values' do
+      it 'returns 0.0 when dividing a number by Float::INFINITY' do
+        expect(calculator.divide(42, Float::INFINITY)).to eq(0.0)
+      end
+
+      it 'returns Infinity when dividing Float::INFINITY by a number' do
+        expect(calculator.divide(Float::INFINITY, 2)).to eq(Float::INFINITY)
+      end
+
+      it 'returns NaN when dividing 0.0 by 0.0' do
+        expect { calculator.divide(0.0, 0.0) }.to raise_error(ZeroDivisionError)
+      end
+
+      it 'returns NaN when numerator is Float::NAN' do
+        expect(calculator.divide(Float::NAN, 1)).to be_nan
+      end
+
+      it 'returns NaN when denominator is Float::NAN' do
+        expect(calculator.divide(1, Float::NAN)).to be_nan
       end
     end
   end

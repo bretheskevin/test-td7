@@ -13,7 +13,9 @@ module Services
     end
 
     def divide(a, b)
-      a / b
+      raise ZeroDivisionError if b.zero?
+
+      a.to_f / b
     end
   end
 end
