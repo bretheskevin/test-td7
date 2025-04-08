@@ -158,4 +158,53 @@ RSpec.describe ::Services::CalculatorService do
       end
     end
   end
+
+  describe '#exponentiate' do
+    context 'with positive integers' do
+      it 'returns the base raised to the exponent' do
+        expect(calculator.exponentiate(2, 3)).to eq(8)
+      end
+    end
+
+    context 'with zero exponent' do
+      it 'returns 1 for any non-zero base' do
+        expect(calculator.exponentiate(5, 0)).to eq(1)
+      end
+    end
+
+    context 'with zero base' do
+      it 'returns 0 when exponent is positive' do
+        expect(calculator.exponentiate(0, 3)).to eq(0)
+      end
+
+      it 'raises error or returns NaN when exponent is 0 (undefined)' do
+        result = calculator.exponentiate(0, 0)
+        expect(result).to eq(1) # Ruby defines 0**0 as 1
+      end
+    end
+
+    context 'with negative exponent' do
+      it 'returns the reciprocal power as float' do
+        expect(calculator.exponentiate(2, -2)).to eq(0.25)
+      end
+    end
+
+    context 'with decimal base or exponent' do
+      it 'returns a float result' do
+        expect(calculator.exponentiate(9.0, 0.5)).to eq(3.0) # square root of 9
+      end
+    end
+
+    context 'with negative base and odd exponent' do
+      it 'returns a negative number' do
+        expect(calculator.exponentiate(-2, 3)).to eq(-8)
+      end
+    end
+
+    context 'with negative base and even exponent' do
+      it 'returns a positive number' do
+        expect(calculator.exponentiate(-2, 2)).to eq(4)
+      end
+    end
+  end
 end

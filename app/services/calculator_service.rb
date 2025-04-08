@@ -17,5 +17,9 @@ module Services
 
       a.to_f / b
     end
+
+    def exponentiate(base, exponent)
+      base ** exponent
+    end
   end
 end
