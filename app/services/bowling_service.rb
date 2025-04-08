@@ -16,14 +16,14 @@ module Services
       reset
     end
 
-    def roll
+    def roll(rolled_pins: Random.rand(0..MAX_PINS))
       if @remaining_throws.positive?
-        rolled_pins = Random.rand(0..MAX_PINS)
         @current_pins -= rolled_pins
         @remaining_throws -= 1
         @players[current_player][:frames] << rolled_pins
       end
 
+      reset
       switch_player
     end
 
@@ -40,7 +40,6 @@ module Services
     def reset
       @current_pins = MAX_PINS
       @remaining_throws = MAX_THROW
-      @current_player = FIRST_PLAYER
     end
 
     def print_frames

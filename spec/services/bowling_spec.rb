@@ -26,17 +26,30 @@ RSpec.describe Services::BowlingService do
 
       service.send(:reset)
     end
-
-    it 'resets the current player' do
-      expect(service.instance_variable_get(:@current_player)).to eq(:A)
-    end
-
+    
     it 'resets the current pins' do
       expect(service.instance_variable_get(:@current_pins)).to eq(Services::BowlingService::MAX_PINS)
     end
 
     it 'resets the remaining throws' do
       expect(service.instance_variable_get(:@remaining_throws)).to eq(Services::BowlingService::MAX_THROW)
+    end
+  end
+
+  describe '#switch_player and #current_player' do
+    it 'current_player is default' do
+      expect(service.send(:current_player)).to eq(:A)
+    end
+
+    it 'current_player is changed' do
+      service.send(:switch_player)
+      expect(service.send(:current_player)).to eq(:B)
+    end
+
+    it 'go back to player A' do
+      service.send(:switch_player)
+      service.send(:switch_player)
+      expect(service.send(:current_player)).to eq(:A)
     end
   end
 end
