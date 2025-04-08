@@ -33,5 +33,12 @@ RSpec.describe Services::FizbuzzService do
       result = described_class.call(2, use_log)
       expect(result).to eq(%w[1 2])
     end
+
+    context "when n = 15" do
+      it "returns '1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz'" do
+        result = described_class.call(15, use_log)
+        expect(result).to eq( %w[1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz])
+      end
+    end
   end
 end
